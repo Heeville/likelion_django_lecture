@@ -1,0 +1,26 @@
+{%load static%}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}{%endblock%} | liongram</title>
+</head>
+<body class="container">
+    <div>
+        {%block content%}
+        {% endblock %}
+    </div>
+    <div>
+        <nav>
+            <ul class ="bottom-menu-group">
+                <li><a href="{%url 'index' %}">홈</a></li>
+                <li>검색</li>
+                <li><a href="{%url 'posts:create' %}">글쓰기</a></li>
+                <li>좋아요</li>
+                <li>프로필</li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{%load static%}
+<div class ="card"> 
+    <div class="card_header">
+        <img src="http://via.placeholder.com/32x32" alt="프로필이미지">
+        <a href="#">
+            <span class="card_user-name">{{post.writer}}</span>
+        </a>
+        {% if request.user == post.writer %}
+            <a href="{% url 'posts:update' post.id%}">수정하기 </a>
+            <a href="{% url 'posts:delete' post.id%}">삭제하기 </a>
+        {%endif%}
+
+    </div>
+    <div class="card_body">
+        <div>
+            {% if post.image %}
+                <img src="{{post.image.url}}" alt="">
+            {%else%}
+                <img src="http://via.placeholder.com/600x600" alt="">
+            {%endif%}
+
+        </div>
+        <div class="card_btn-group">
+
+        </div>
+        <div class="card_content">
+            <span>좋아요 00개</span>
+            <div>
+                <p><span>{{post.writer}}</span>{{"post.content"|truncatechars:30}}</p>
+                {% if not detail%}
+                    <a href="{%url 'posts:detail' post.id%}">더보기</a>
+                {%endif%}
+            </div>
+            <div>
+                <p>댓글 {{post.comment_set.all.count}}개 </p>
+                    <a href="{%url 'posts:detail' post.id%}">모두 보기</a>
+                <ul>
+                    {% if not detail%}
+                        {%for comment in post.comment_set.all|slice:":2" %}
+                        <li>
+                            <p><span>{{comment.writer}}</span>{{comment.content}}</p>
+
+                        </li>
+                        {% endfor %}
+                    {% else %}
+                        {%for comment in post.comment_set.all%}
+                        <li>
+                            <p><span>{{comment.writer}}</span>{{comment.content}}</p>
+
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <p>{{post.create_at}}</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
