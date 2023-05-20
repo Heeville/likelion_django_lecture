@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,JsonResponse,Http404
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
-from.forms import PostBaseForm
+from.forms import PostBaseForm,PostCreateForm
 from .models import Post
 # Create your views here.
 def index(request):
@@ -47,11 +47,22 @@ def post_create_view(request):
     
 def post_create_form_view(request):
     if request.method=='GET':
-        form=PostBaseForm()
+        #form=PostBaseForm()
+        form=PostCreateForm()
         context={'form':form}
-        return render(request,'posts/post_form.html',context)
+        return render(request,'posts/post_form2.html',context)
     else:
+        form=PostBaseForm(request.POST,request.FILES)
+        if form.is_valid():
+            Post.objects.create(
+                image=form.cleaned_data['image'],
+                content=form.cleaned_data['content'],
+                writer=request.user
+            )
+        else:
+            return redirect('posts:create')
         return redirect('index')
+    
     
 
 def post_update_view(request,id):
